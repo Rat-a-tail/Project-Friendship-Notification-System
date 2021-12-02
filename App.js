@@ -9,16 +9,14 @@ import CreateAlert from './library/CreateAlert';
 
 const Stack = createStackNavigator();
 
-export default class NavExample extends Component {
-    render() {
-        return (
-            <NavigationContainer>
-              <Stack.Navigator>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Inbox" component={Inbox}/>
-                <Stack.Screen name="Alert" component={CreateAlert}/>
-              </Stack.Navigator>
-            </NavigationContainer>
-        );
-    }
-}
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} options = {{headerShown: false}}/>
+        <Stack.Screen name="Inbox" component={Inbox} options = {{headerShown: false}}/>
+        <Stack.Screen name = "Alert" component={CreateAlert} options = {{headerShown: false}} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};

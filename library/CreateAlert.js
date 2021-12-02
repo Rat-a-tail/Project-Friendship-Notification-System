@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-export default class Login extends Component {
-    render() {
+export default function Login ({navigation }) {
+
 	    return (
             <View style={{ alignItems: 'center' }}>
                 <Text style={styles.titleText}>
@@ -13,13 +13,12 @@ export default class Login extends Component {
                 {/* Space between title and buttons*/}
                 
                 <View style={styles.buttonStyle}> 
-                    <Button title="Back "
-                            onPress={() => this.props.navigation.navigate('Login')}/>
+                    <Button title="Back"
+                            onPress={() => navigation.navigate("Login")}/>
                 </View> 
             </View>
         );
     }
-}
 
 const styles = StyleSheet.create({
     buttonStyle: {

@@ -1,44 +1,45 @@
-import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React from "react";
+import { StyleSheet, View, Button, Text } from "react-native";
+import * as Google from "expo-google-app-auth";
 
-export default class Login extends Component {
-    render() {
-	    return (
-            <View style={{ alignItems: 'center' }}>
-                <Text style={styles.titleText}> 
-                    <Text>Project Friendship Login</Text>
-                </Text>
+export default function Login ({ navigation }) {
+  const signInAsync = async () => {
+    try {
+      const { type, user } = await Google.logInAsync({
+        iosClientId: `537101146129-jeulpe3icm2i30sp1kp9m7fhmn1e8p8d.apps.googleusercontent.com`,
+        androidClientId: `537101146129-776h84lg07qtg1v1hdaiupkk8e43ru2s.apps.googleusercontent.com`,
+      });
 
-                <View style={{padding: 250}}/>  
-                {/* Space between title and buttons*/}
-
-                <View style={styles.buttonStyle}>
-                    <Button title="Inbox "
-                            onPress={() => this.props.navigation.navigate('Inbox')}/>
-                    <Button title="Create alert"
-                            onPress={() => this.props.navigation.navigate('Alert')}/>
-                </View> 
-            </View>
-        );
+      if (type === "success") {
+        // Then you can use the Google REST API
+        console.log("LoginScreen.js 17 | success, navigating to profile");
+        console.log(user);
+        navigation.navigate("Inbox", { user });
+      }
+    } catch (error) {
+      console.log("LoginScreen.js 19 | error with login", error);
     }
-}
+  };
 
+  return (
+    <View style={styles.container}>
+    	<Text style = {styles.text}>Project <Text style = {{color: "rgb(211,35,0)"}}>Friendship</Text></Text>
+      <Button style = {styles.button} title="Login with Google" onPress={signInAsync} />
+    </View>
+  );
+};
 const styles = StyleSheet.create({
-    buttonStyle: {
-        flexDirection: 'row', 
-        justifyContent: 'space-between',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        width: 300, // space between buttons
-        height: 60,
-        
-      },
-    titleText: {
-        fontFamily: 'sans-serif-light',
-        justifyContent: 'center',
-        fontSize: 25,
-        fontWeight: 'bold',
-        paddingVertical: 30,
-    },
-    });
+	container: {
+		justifyContent: "center",
+		width: "100%",
+		height: "100%",
+		alignItems: "center"
+	},
+	text: {
+		fontFamily: "Roboto",
+		color: "rgb(240, 140, 29)",
+		fontSize: 40
+	},
+	button: {
+	}
+	});

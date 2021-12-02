@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-export default class Login extends Component {
-    render() {
-	    return (
+export default function Inbox ({ route, navigation }) {
+	const { user } = route.params;
+	console.log("INBOX:", user);
+	return (
             <View style={{ alignItems: 'center' }}>
                 <Text style={styles.titleText}>
                     <Text>Inbox</Text>
                 </Text>
+                 <Text>Welcome {user.name}!</Text>
                 
                 <View style={{padding: 250}}/> 
                 {/* Space between title and buttons*/}
                 
                 <View style={styles.buttonStyle}> 
-                    <Button title="Login "
-                            onPress={() => this.props.navigation.navigate('Login')}/>
                     <Button title="Create alert"
-                            onPress={() => this.props.navigation.navigate('Alert')}/>
+                            onPress={() => navigation.navigate('Alert')}/>
                 </View> 
             </View>
         );
-    }
 }
 
 const styles = StyleSheet.create({
