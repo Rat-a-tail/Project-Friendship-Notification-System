@@ -23,8 +23,8 @@ export default function Login ({ navigation }) {
 
   return (
     <View style={styles.container}>
-    	<Text style = {styles.text}>Project <Text style = {{color: "rgb(211,35,0)"}}>Friendship</Text></Text>
-      <Button style = {styles.button} title="Login with Google" onPress={signInAsync} />
+    	<Text style = {styles.text}>PROJECT <Text style = {{color: "rgb(211,35,0)"}}>FRIENDSHIP</Text></Text>
+      <Button color = "rgb(96, 36, 190)" title="Login with Google" onPress={signInAsync} />
     </View>
   );
 };
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontFamily: "Roboto",
 		color: "rgb(240, 140, 29)",
-		fontSize: 40
+		fontSize: 35
 	},
 	button: {
 	}
