@@ -16,12 +16,12 @@ let inserted;
 
 app.get('/found', (request, response) => {
     console.log(`Got request for found,sending ${found}`);
-    pool.query('SELECT receiver FROM messages ')
+    pool.query('SELECT receiver FROM messages' )
 	.then(res => {
 	    console.log('Show contents: ');
 		res.rows.forEach(val=> {
 			console.log(val);
-			res.rows.push(val)
+			res.rows.push(val.found)
 		})
 		response.send(res.rows);
 	    //response.send(res.rows[4 - 4]);
@@ -33,18 +33,42 @@ app.get('/found', (request, response) => {
 })
 
 /* update content*/ 
-app.put('/inserted', (request, response) => {
+app.put('/inserted/reset', (request, response) => {
     console.log('Putting content into contents column');
-    pool.query('UPDATE messages SET mid = 0')  
+	let to = request.body.to;
+	let from = request.body.from;
+	let subject = request.body.subject;
+	let content = request.body.content;
+	pool.query('INSERT INTO messages (to, from, subject, content) VALUES (DEFAULT, hi, hry, gs, tsadf')
 	.then(res => {
-	    console.log('DB response: ' + res.rows[3]);
-	    response.sendStatus(200)
+	    console.log('DB response: ' + res.rows[0]);
+		response.sendStatus(200);
 	})
 	.catch(err =>
 	       setImmediate(() => {
 		   throw err;
 	       }));
 })
+
+app.post('/inserted', (request, response) => {
+    // count++;
+    console.log(`Putting content into contents column`);
+    pool.query('UPDATE messages SET = mid + 1')
+	.then(res => {
+	    console.log('Updated mid: ' );
+		res.rows.forEach(vl=> {
+			console.log(vl);
+			res.rows.push(vl.inserted)
+		})
+	    response.sendStatus(200);
+	})
+	.catch(err =>
+	       setImmediate(() => {
+		   throw err;
+	       }));
+})
+
+
 /*
 app.get('/names', (request, response) => {
     console.log(`Got request for names`);

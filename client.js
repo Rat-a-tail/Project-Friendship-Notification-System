@@ -7,7 +7,10 @@ export default class ButtonClient extends Component {
         this.state = {
             url: 'http://10.42.248.168:3001',
             formContentType: "application/x-www-form-urlencoded;charset=UTF-8", 
-            name: 'waiting for input'
+            from: ' ',
+			to: ' ',
+			subject: ' ',
+			content: ' ',
 	};
     }
 
@@ -25,10 +28,14 @@ export default class ButtonClient extends Component {
             .catch((error) => {
                 console.error(error);
             });
+
     }
+
+
     
     render(){
         return(
+		
             <View style={{paddingTop: 100, paddingLeft: 50 }}>
               <Text>Project Friendship Messages</Text>
               {/* Comment: The empty View below is for vertical spacing */}
@@ -43,9 +50,9 @@ export default class ButtonClient extends Component {
 	                    borderStyle: 'solid', borderWidth: 3, }}>
 	        <TextInput
 	          style={{height: 40}}
-	          placeholder="Name to add"
-	          onChangeText={(name) => this.setState({name})}
-	          value={this.state.name}
+	          placeholder="Parent/Mentor"
+	          onChangeText={(from) => this.setState({from})}
+	          value={this.state.from}
 	        />
 	        </View>
 
@@ -56,9 +63,9 @@ export default class ButtonClient extends Component {
 	                    borderStyle: 'solid', borderWidth: 3, }}>
 	        <TextInput
 	          style={{height: 40}}
-	          placeholder="Name to add"
-	          onChangeText={(name) => this.setState({name})}
-	          value={this.state.name}
+	          placeholder="Parent/Mentor"
+	          onChangeText={(to) => this.setState({to})}
+	          value={this.state.to}
 	        />
 	        </View>
 
@@ -69,9 +76,9 @@ export default class ButtonClient extends Component {
 	                    borderStyle: 'solid', borderWidth: 3, }}>
 	        <TextInput
 	          style={{height: 40}}
-	          placeholder="Name to add"
-	          onChangeText={(name) => this.setState({name})}
-	          value={this.state.name}
+	          placeholder="Hi"
+	          onChangeText={(subject) => this.setState({subject})}
+	          value={this.state.subject}
 	        />
 	        </View>
 
@@ -82,27 +89,30 @@ export default class ButtonClient extends Component {
 	                    borderStyle: 'solid', borderWidth: 3, }}>
 	        <TextInput
 	          style={{height: 40}}
-	          placeholder="Name to add"
-	          onChangeText={(name) => this.setState({name})}
-	          value={this.state.name}
+	          placeholder="PF"
+			  //color='blue' title='Click to see value of found'
+			  //onPress={() => this.handlePress('found', 'GET')}
+	          onChangeText={(content) => this.setState({content})}
+	          value={this.state.content}
 	        />
 	        </View>
 
             {/* RETRIEVE firstid */}
 
-	      <Button
+			<Button
 	        color='blue' title='Click to see value of found'
-	        onPress={() => this.handlePress('found', 'GET')} />
-
-			 {/* UPDATE - firstid */}
-
+	        onPress={() => this.handlePress('found', 'GET')} />	
+			
+			{/* UPDATE - firstid */}
 			 <Button
 	        color='green' title='Click to update content'
-	        onPress={() => this.handlePress('content', 'PUT')} />
+	        onPress={() => this.handlePress('inserted/reset', 'PUT')} />
+			
+			<Button 
+                color='green' title='Click to increment mid'
+	        onPress={() => this.handlePress('inserted', 'POST')} />
 
-              <View style={{padding: 10}}/>
- 
-
+		
  	    </View> 
       );
     }
