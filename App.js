@@ -104,15 +104,21 @@ export default class ButtonClient extends Component {
 	        onPress={() => this.handlePress('found', 'GET')} />	
 			
 			{/* UPDATE - firstid */}
-			 <Button
-	        color='green' title='Click to update content'
-	        onPress={() => this.handlePress('inserted/reset', 'PUT')} />
-			
-			<Button 
-                color='green' title='Click to increment mid'
-	        onPress={() => this.handlePress('inserted', 'POST')} />
+			<Button
+	       color='green'  title='SEND'
+	        onPress={() => this.handlePress('inserted', 'POST', {
+	              headers: {
+	         	"Content-type": this.state.formContentType
+		      }, 
+		      body: `subject=${this.state.subject}`
 
-		
+			  /*', ${this.state.from}',*/
+			  /*body: `from=${this.state.from}`*/
+			  /*body: 'to=${this.state.to}',*/
+			  /*body: 'content=${this.state.content}'*/
+				}
+ 	        )}/>
+			
  	    </View> 
       );
     }

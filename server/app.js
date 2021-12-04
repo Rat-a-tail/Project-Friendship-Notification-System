@@ -33,15 +33,20 @@ app.get('/found', (request, response) => {
 })
 
 /* update content*/ 
-app.put('/inserted/reset', (request, response) => {
+app.post('/inserted', (request, response) => {
     console.log('Putting content into contents column');
 	let to = request.body.to;
+	console.log(request.body)
+    console.log(request.body.to)
 	let from = request.body.from;
 	let subject = request.body.subject;
 	let content = request.body.content;
-	pool.query('INSERT INTO messages (to, from, subject, content) VALUES (hi, hry, gs, tsadf)')
+
+	console.log(`Got request to add a subject, will add ${subject} ${sender} ${receiver} ${content} to database`);
+	pool.query('INSERT INTO messages (subject, sender, receiver, content) VALUES ($1), ($2), ($3), ($4)', [subject,sender,receiver,content])
+
 	.then(res => {
-	    console.log('DB response: ' + res.rows[0]);
+	    console.log('DB response: ' + res.rows);
 		response.sendStatus(200);
 	})
 	.catch(err =>
@@ -49,7 +54,7 @@ app.put('/inserted/reset', (request, response) => {
 		   throw err;
 	       }));
 })
-
+/*
 app.post('/inserted', (request, response) => {
     // count++;
     console.log(`Putting content into contents column`);
@@ -66,7 +71,7 @@ app.post('/inserted', (request, response) => {
 	       setImmediate(() => {
 		   throw err;
 	       }));
-})
+})*/
 
 
 /*
