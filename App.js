@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput} from 'react-native';
 
+
 export default class ButtonClient extends Component {
     constructor(props) {
         super(props);
         this.state = {
             url: 'http://10.42.248.168:3001',
+			
             formContentType: "application/x-www-form-urlencoded;charset=UTF-8", 
-            from: ' ',
-			to: ' ',
+            sender: ' ',
+			receiver: ' ',
 			subject: ' ',
-			content: ' ',
+			contents: ' ',
+			
 	};
     }
 
@@ -21,8 +24,7 @@ export default class ButtonClient extends Component {
             .then((response) => response.text())
             .then((responseText) => {
                 alert(`
-                    Sent:  op=${JSON.stringify(op)}\nparams+method=${
-			JSON.stringify(params)}\n
+    
                     Received:  ${responseText}`);
             })
             .catch((error) => {
@@ -51,8 +53,8 @@ export default class ButtonClient extends Component {
 	        <TextInput
 	          style={{height: 40}}
 	          placeholder="Parent/Mentor"
-	          onChangeText={(from) => this.setState({from})}
-	          value={this.state.from}
+	          onChangeText={(sender) => this.setState({sender})}
+	          value={this.state.sender}
 	        />
 	        </View>
 
@@ -64,8 +66,8 @@ export default class ButtonClient extends Component {
 	        <TextInput
 	          style={{height: 40}}
 	          placeholder="Parent/Mentor"
-	          onChangeText={(to) => this.setState({to})}
-	          value={this.state.to}
+	          onChangeText={(receiver) => this.setState({receiver})}
+	          value={this.state.receiver}
 	        />
 	        </View>
 
@@ -88,39 +90,41 @@ export default class ButtonClient extends Component {
 	        <View style={{margin: 5, paddingLeft: 10,
 	                    borderStyle: 'solid', borderWidth: 3, }}>
 	        <TextInput
-	          style={{height: 40}}
+	          style={{height: 100}}
 	          placeholder="PF"
-			  //color='blue' title='Click to see value of found'
-			  //onPress={() => this.handlePress('found', 'GET')}
-	          onChangeText={(content) => this.setState({content})}
-	          value={this.state.content}
+	          onChangeText={(contents) => this.setState({contents})}
+	          value={this.state.contents}
 	        />
 	        </View>
 
             {/* RETRIEVE firstid */}
 
 			<Button
-	        color='blue' title='Click to see value of found'
+	        color='blue' title='RETRIEVE'
 	        onPress={() => this.handlePress('found', 'GET')} />	
 			
 			{/* UPDATE - firstid */}
 			<Button
 	       color='green'  title='SEND'
-	        onPress={() => this.handlePress('inserted', 'POST', {
-	              headers: {
+	        onPress={(e) => this.handlePress('inserted', 'POST', {
+	            headers: {
 	         	"Content-type": this.state.formContentType
-		      }, 
-		      body: `subject=${this.state.subject}`
-
-			  /*', ${this.state.from}',*/
-			  /*body: `from=${this.state.from}`*/
+		  }, 	
+		  body: `subject=${this.state.subject}` ,
+		/*body: `from=${this.state.from}`*/
 			  /*body: 'to=${this.state.to}',*/
 			  /*body: 'content=${this.state.content}'*/
-				}
+			  
+			}	
+				
+				
  	        )}/>
 			
  	    </View> 
       );
     }
 }
+
+
+
 

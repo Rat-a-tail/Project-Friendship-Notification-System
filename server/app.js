@@ -11,17 +11,18 @@ let found;
 let inserted;
 
 // handle requests
-
+2
 // RETRIEVE message content
 
 app.get('/found', (request, response) => {
     console.log(`Got request for found,sending ${found}`);
-    pool.query('SELECT receiver FROM messages' )
+	pool.query('SELECT subject, sender, receiver, contents FROM messages')
 	.then(res => {
-	    console.log('Show contents: ');
+	    console.log('Show contents: ')
 		res.rows.forEach(val=> {
 			console.log(val);
-			res.rows.push(val.found)
+			res.rows.push(val.sender)
+			//arr.push(val.name);
 		})
 		response.send(res.rows);
 	    //response.send(res.rows[4 - 4]);
@@ -35,24 +36,32 @@ app.get('/found', (request, response) => {
 /* update content*/ 
 app.post('/inserted', (request, response) => {
     console.log('Putting content into contents column');
-	let to = request.body.to;
+	let sender = request.body.to;
 	console.log(request.body)
     console.log(request.body.to)
-	let from = request.body.from;
+	let receiver = request.body.from;
 	let subject = request.body.subject;
-	let content = request.body.content;
+	let contents = request.body.content;
 
-	console.log(`Got request to add a subject, will add ${subject} ${sender} ${receiver} ${content} to database`);
-	pool.query('INSERT INTO messages (subject, sender, receiver, content) VALUES ($1), ($2), ($3), ($4)', [subject,sender,receiver,content])
+	console.log(`Got request to add a subject, will add ${subject} to database`);
+	console.log(`Got request to add a subject, will add ${sender} to database`);
+	console.log(`Got request to add a subject, will add ${receiver} to database`);
+	console.log(`Got request to add a subject, will add ${contents} to database`);
+	pool.query('INSERT INTO messages (subject, sender, receiver, contents) VALUES ($1), ($2), ($3), ($4)', [subject,sender,receiver,contents])
 
 	.then(res => {
-	    console.log('DB response: ' + res.rows);
+	    console.log('DB response: ' + res.rows[0]);
+		res.rows.forEach(val=> {
+			console.log(val);
+			res.rows.push(val.sender)
 		response.sendStatus(200);
 	})
 	.catch(err =>
 	       setImmediate(() => {
 		   throw err;
 	       }));
+})
+
 })
 /*
 app.post('/inserted', (request, response) => {
