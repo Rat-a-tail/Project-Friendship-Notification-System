@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-export default function Inbox ({ route, navigation }) {
+export default function Inbox ({ route }) {
 	const { user } = route.params;
 	console.log("INBOX:", user);
 	return (
@@ -13,26 +13,12 @@ export default function Inbox ({ route, navigation }) {
                 
                 <View style={{padding: 250}}/> 
                 {/* Space between title and buttons*/}
-                
-                <View style={styles.buttonStyle}> 
-                    <Button title="Create alert"
-                            onPress={() => navigation.navigate('Alert')}/>
-                </View> 
+                 
             </View>
         );
 }
 
 const styles = StyleSheet.create({
-    buttonStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        width: 300, // space between buttons
-        height: 60,
-        
-      },
     titleText: {
         fontFamily: 'sans-serif-light',
         justifyContent: 'center',

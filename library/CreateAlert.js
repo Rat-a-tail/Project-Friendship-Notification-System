@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-export default function Login ({navigation }) {
+export default function CreateAlert ({navigation }) {
 
 	    return (
             <View style={{ alignItems: 'center' }}>
@@ -9,28 +9,12 @@ export default function Login ({navigation }) {
                     <Text>Create an alert</Text>
                 </Text>
 
-                <View style={{padding: 250}}/> 
-                {/* Space between title and buttons*/}
                 
-                <View style={styles.buttonStyle}> 
-                    <Button title="Back"
-                            onPress={() => navigation.navigate("Login")}/>
-                </View> 
             </View>
         );
     }
 
 const styles = StyleSheet.create({
-    buttonStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        width: 300, // space between buttons
-        height: 60,
-        
-      },
     titleText: {
         fontFamily: 'sans-serif-light',
         justifyContent: 'center',

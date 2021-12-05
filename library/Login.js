@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
+import { StyleSheet, View, Button, Text, Image } from "react-native";
 import * as Google from "expo-google-app-auth";
 
 export default function Login ({ navigation }) {
@@ -23,7 +23,13 @@ export default function Login ({ navigation }) {
 
   return (
     <View style={styles.container}>
-    	<Text style = {styles.text}>PROJECT <Text style = {{color: "rgb(211,35,0)"}}>FRIENDSHIP</Text></Text>
+      <Image 
+      style={{width:250, height:280}}
+      resizeMode="contain" //maintain aspect ratio
+      source={require('./friendshiplogo.png')}/>
+      
+
+    	{/* <Text style = {styles.text}>PROJECT <Text style = {{color: "rgb(211,35,0)"}}>FRIENDSHIP</Text></Text>*/}
       <Button color = "rgb(96, 36, 190)" title="Login with Google" onPress={signInAsync} />
     </View>
   );
@@ -33,7 +39,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		width: "100%",
 		height: "100%",
-		alignItems: "center"
+		alignItems: "center",
+    
 	},
 	text: {
 		fontFamily: "Roboto",
@@ -43,3 +50,4 @@ const styles = StyleSheet.create({
 	button: {
 	}
 	});
+
