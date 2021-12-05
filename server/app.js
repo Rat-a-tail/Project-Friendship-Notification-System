@@ -36,21 +36,31 @@ app.get('/found', (request, response) => {
 /* update content*/ 
 app.post('/inserted', (request, response) => {
     console.log('Putting content into contents column');
-	let sender = request.body.to;
-	console.log(request.body)
-    console.log(request.body.to)
-	let receiver = request.body.from;
-	let subject = request.body.subject;
-	let contents = request.body.content;
 
-	console.log(`Got request to add a subject, will add ${subject} to database`);
-	console.log(`Got request to add a subject, will add ${sender} to database`);
-	console.log(`Got request to add a subject, will add ${receiver} to database`);
-	console.log(`Got request to add a subject, will add ${contents} to database`);
-	pool.query('INSERT INTO messages (subject, sender, receiver, contents) VALUES ($1), ($2), ($3), ($4)', [subject,sender,receiver,contents])
+	let Sentinfo=request.body.Sentinfo;
+	console.log('this is', Sentinfo);
+	Sentinfo = Sentinfo.replaceAll("  ",'~')
+	Sentinfo = Sentinfo.replaceAll(" ",'')
+	Sentinfo = Sentinfo.replaceAll("~",' ')
+	let arr = Sentinfo.split(" ");
+	//arr.splice(0); 
+	console.log(arr); 
+	//console.log(`Got request to add a subject, will add ${arr[0]}, ${arr[1]}, ${arr[2]}, ${arr[3]} to database`);
+	
+	let subject = arr[0]; 
+	let sender = arr[1]; 
+	let receiver = arr[2]; 
+	let contents = arr[3]; 
+
+	console.log(`Got request to add a subject, will add ${subject} to database`);    
+	console.log(`Got request to add a sender, will add ${sender} to database`); 
+	console.log(`Got request to add a receiver, will add ${receiver} to database`); 
+	console.log(`Got request to add a contents, will add ${contents} to database`); 
+	
+	pool.query('INSERT INTO messages (mid, subject, sender, receiver, contents) VALUES ($1), ($2), ($3), ($4), $(5)', [DEFAULT,subject,sender,receiver,contents])
 
 	.then(res => {
-	    console.log('DB response: ' + res.rows[0]);
+	    console.log('DB response: ' )
 		res.rows.forEach(val=> {
 			console.log(val);
 			res.rows.push(val.sender)

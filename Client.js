@@ -32,9 +32,6 @@ export default class ButtonClient extends Component {
             });
 
     }
-
-
-    
     render(){
         return(
 		
@@ -110,7 +107,8 @@ export default class ButtonClient extends Component {
 	            headers: {
 	         	"Content-type": this.state.formContentType
 		  }, 	
-		  body: `subject=${this.state.subject}` ,
+		  
+		  body: `Sentinfo=${this.state.subject},${this.state.sender},${this.state.receiver},${this.state.contents} `
 		/*body: `from=${this.state.from}`*/
 			  /*body: 'to=${this.state.to}',*/
 			  /*body: 'content=${this.state.content}'*/
