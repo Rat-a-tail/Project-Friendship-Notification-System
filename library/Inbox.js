@@ -11,14 +11,16 @@ export default function Inbox ({ route, navigation }) {
 	const [formContentType, setFormContentType ] = useState('application/x-www-form-urlencoded;charset=UTF-8');
 	
 	handlePress = (op, method = '', params = {}) => {
-        if (method != '')
+        if (method != '') {
             params.method = method;
+            console.log(params);
+            }
         fetch(url + '/'+op, params)
             .then((response) => response.text())
             .then((responseText) => {
-                alert(`
+               {/* alert(`
     
-                    Received:  ${responseText}`);
+                    Received:  ${responseText}`);*/}
             })
             .catch((error) => {
                 console.error(error);
@@ -51,7 +53,7 @@ export default function Inbox ({ route, navigation }) {
 
 const styles = StyleSheet.create({
     titleText: {
-        fontFamily: 'sans-serif-light',
+        //fontFamily: 'sans-serif-light',
         justifyContent: 'center',
         fontSize: 25,
         fontWeight: 'bold',

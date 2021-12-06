@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState} from "react";
 import { StyleSheet, View, Button, Text, Image } from "react-native";
 import * as Google from "expo-google-app-auth";
 
 export default function Login ({ navigation }) {
+	const [url, setUrl] = useState('http://10.42.248.168:3001');
   const signInAsync = async () => {
     try {
       const { type, user } = await Google.logInAsync({
@@ -13,6 +14,21 @@ export default function Login ({ navigation }) {
       if (type === "success") {
         // Then you can use the Google REST API
         console.log("LoginScreen.js 17 | success, navigating to profile");
+        {/* Accounts is checked against database, and added if not present */}
+        params = {
+        	"method": "GET",
+        	"headers": {
+        		"email": user.email,
+        	}
+        	}
+        fetch(`${url}/users`, params)
+        .then((response) => response.text()).
+        then((responseText) => {
+        	console.log(`Received ${responseText}`);
+        	})
+        	.catch((error) => {
+        		console.error(error);
+        		});
         navigation.navigate("Inbox", { user });
       }
     } catch (error) {
@@ -42,7 +58,7 @@ const styles = StyleSheet.create({
     
 	},
 	text: {
-		fontFamily: "Roboto",
+		//fontFamily: "Roboto",
 		color: "rgb(240, 140, 29)",
 		fontSize: 35
 	},
