@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './library/Login';
 import Inbox from './library/Inbox';
 import CreateAlert from './library/CreateAlert';
-import MainNavigator from './library/MainNavigtor';
+import MainNavigator from './library/MainNavigator';
 
 const Stack = createStackNavigator();
 
