@@ -1,20 +1,51 @@
 import React, { Component, useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, ScrollView } from 'react-native';
 
-export default function Inbox ({ route }) {
+export default function Inbox ({ route, navigation }) {
 	const { user } = route.params;
-	console.log("INBOX:", user);
+	const [ sender, setSender] = useState(' ' );
+	const [ receiver, setReceiver ] = useState(' ');
+	const [subject, setSubject ] = useState(' ');
+	const [ contents, setContents] = useState(' ');
+	const [url, SetUrl] = useState('http://10.42.248.168:3001');
+	const [formContentType, setFormContentType ] = useState('application/x-www-form-urlencoded;charset=UTF-8');
+	
+	handlePress = (op, method = '', params = {}) => {
+        if (method != '')
+            params.method = method;
+        fetch(url + '/'+op, params)
+            .then((response) => response.text())
+            .then((responseText) => {
+                alert(`
+    
+                    Received:  ${responseText}`);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+    }
+
 	return (
+	<ScrollView>
             <View style={{ alignItems: 'center' }}>
                 <Text style={styles.titleText}>
                     <Text>Inbox</Text>
                 </Text>
                  <Text>Welcome {user.name}!</Text>
-                
-                <View style={{padding: 250}}/> 
+               
+     
                 {/* Space between title and buttons*/}
                  
-            </View>
+            <Button
+	        color='blue' title='RETRIEVE'
+	        onPress={() => handlePress('found', 'GET')} />	
+	        
+	        <Button color='tomato' title = 'Alert'
+	        onPress = {() => {
+	        navigation.navigate("Alert", { user })}} />
+	        </View>
+            </ScrollView>
         );
 }
 

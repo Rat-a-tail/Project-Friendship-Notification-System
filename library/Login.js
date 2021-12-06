@@ -13,7 +13,6 @@ export default function Login ({ navigation }) {
       if (type === "success") {
         // Then you can use the Google REST API
         console.log("LoginScreen.js 17 | success, navigating to profile");
-        console.log(user);
         navigation.navigate("Inbox", { user });
       }
     } catch (error) {
