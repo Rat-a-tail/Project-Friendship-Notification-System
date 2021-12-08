@@ -74,11 +74,16 @@ export default function CreateAlert ({route, navigation }) {
                 onPress = {() => handlePress('inserted', 'POST', {
                 	headers: {
                 		'Content-type': formContentType,
-                		'subject': subject.subject,
-                		'sender': user.email,
-                		'contents': contents.contents,
-                		'receiver': receiver.receiver
+                		//'subject': subject.subject,
+                		//'sender': user.email,
+                		//'contents': contents.contents,
+                		//'receiver': receiver.receiver
                 	},
+                	body: JSON.stringify({
+                		subject: subject.subject,
+                		sender: user.email,
+                		contents: contents.contents,
+                		receiver: receiver.receiver}),
                 	//body:
                 		//`subject=${subject.subject} sender = ${sender.sender} contents = ${contents.contents} receiver = ${receiver.receiver}`
                 		//subject: subject.subject,

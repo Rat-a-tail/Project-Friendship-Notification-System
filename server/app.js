@@ -112,10 +112,10 @@ app.post('/inserted', (request, response) => {
 
 	      //console.log(request);
        //console.log(request.body);
-       let subject = request.headers.subject; 
-       let sender = request.headers.sender; 
-       let receiver = request.headers.receiver; 
-       let contents = request.headers.contents; 
+       let subject = request.body.subject; 
+       let sender = request.body.sender; 
+       let receiver = request.body.receiver; 
+       let contents = request.body.contents; 
 
 
 	console.log(`Got request to add a subject, will add ${subject} to database`);    
