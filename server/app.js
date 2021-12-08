@@ -43,6 +43,35 @@ app.get('/messages', (request, response) => {
 		   throw err;
 	       }));
 })
+/*users*/
+app.get('/users', (request, response) => {
+	       let email = request.headers.email;
+	       console.log(`Got request for user, ${email}`)
+	       //console.log(`SELECT * FROM users WHERE email = '${email}'`)
+	       pool.query(`SELECT * FROM users WHERE email = '${email}'`)  // wanna display this info in drop down menu
+	       .then(res => {
+	           console.log('Show contents: ')
+	                       if(res.rows.length == 0){ 
+	                               let role = get_affiliation(email);
+	                               console.log(`role`)
+	                               pool.query(`INSERT INTO users (email, role, affiliation) VALUES ('${email}', '${role}', 'mentor')`)
+	                               .then(res => {
+	                                       console.log(`account creates`) 
+	                                       //response.sendStatus(200);
+	                               })
+	                               .catch(err =>
+	                                       setImmediate(() => {
+	                                      throw err;
+	                                       }));
+	                               }
+	                               response.sendStatus(200);               
+	       })
+	       .catch(err =>
+	              setImmediate(() => {
+	                  throw err;
+	              }));
+	})
+	
 /*
 +app.get('/affiliation', (request, response) => {
 +    //console.log(`Got request for found,sending ${found}`);
