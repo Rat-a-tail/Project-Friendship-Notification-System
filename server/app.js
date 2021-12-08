@@ -72,6 +72,20 @@ app.get('/users', (request, response) => {
 	                  throw err;
 	              }));
 	})
+/*app.delete('/removed', (request, response) => {
+		console.log(`Deleting user ${email}`)
+		let email = request.headers.email;
+        let sender = request.headers.sender; 
+		pool.query(`DELETE FROM users u, messages m WHERE u.email = '${email}' AND m.sender = '${sender}' `)
+        .then(res => {
+            console.log('User successfully removed: ' )
+                       response.sendStatus(200);
+       })
+		.catch(err =>
+               setImmediate(() => {
+                   throw err;
+               }))
+	});*/
 	
 /*
 +app.get('/affiliation', (request, response) => {
@@ -119,6 +133,8 @@ app.post('/inserted', (request, response) => {
                    throw err;
                }))
 	});
+
+
 /*
 app.post('/inserted', (request, response) => {
     // count++;
