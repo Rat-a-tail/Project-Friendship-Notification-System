@@ -13,13 +13,13 @@ let inserted;
 function get_affiliation(email) {
 	       let role;
 	       if(email.includes(`@stolaf.edu`)){
-	               role = `ole`
+	               role = `Ole`
 	       }
 	       else if(email.includes(`@carleton.edu`)){
-	               role = `carl`
+	               role = `Carl`
 	       }
 	       else{
-	               role = `other`
+	               role = `Other`
 	       }
 	       return role;
 	}
@@ -29,11 +29,12 @@ function get_affiliation(email) {
 // RETRIEVE message content
 app.get('/messages', (request, response) => {
 	    //console.log(`Got request for found,sending ${found}`);
-	       let email = request.body.email;
+	       let email = request.headers.email;
 	       let receiver = get_affiliation(email);
 	       console.log(`Got request for messages,sending`);
 	       console.log(`Got request for messages,'${receiver}'`);
-	       pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'all' OR m.reciever = '${receiver}'`)
+		   console.log(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'all' OR m.receiver = '${receiver}'`)
+	       pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'all' OR m.receiver = '${receiver}' AND u.email = '${email}'`)
 			.then(res => {
 				console.log('Show contents: ')
 				response.send(res.rows);
