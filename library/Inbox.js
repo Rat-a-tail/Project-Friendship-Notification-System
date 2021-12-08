@@ -18,9 +18,9 @@ export default function Inbox ({ route, navigation }) {
         fetch(url + '/'+op, params)
             .then((response) => response.text())
             .then((responseText) => {
-               {/* alert(`
+               alert(`
     
-                    Received:  ${responseText}`);*/}
+                    Received:  ${responseText}`);
             })
             .catch((error) => {
                 console.error(error);
@@ -41,7 +41,14 @@ export default function Inbox ({ route, navigation }) {
                  
             <Button
 	        color='blue' title='RETRIEVE'
-	        onPress={() => handlePress('found', 'GET')} />	
+	        onPress={() => handlePress('messages', 'GET', {
+	        	headers: {
+	        		'Content-type': formContentType,
+	        		'email': user.email,
+	        		},
+	        //body: JSON.stringify({email:user.email})
+})}
+	         />	
 	        
 	        <Button color='tomato' title = 'Alert'
 	        onPress = {() => {
