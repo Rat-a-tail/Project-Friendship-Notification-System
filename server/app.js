@@ -9,70 +9,86 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // variables to be manipulated by buttons
 let found;
 let inserted;
-
+// helper function to get affiliation for email.
+function get_affiliation(email) {
+	       let role;
+	       if(email.includes(`@stolaf.edu`)){
+	               role = `ole`
+	       }
+	       else if(email.includes(`@carleton.edu`)){
+	               role = `carl`
+	       }
+	       else{
+	               role = `other`
+	       }
+	       return role;
+	}
+	
 // handle requests
 2
 // RETRIEVE message content
-
-app.get('/found', (request, response) => {
-    console.log(`Got request for found,sending ${found}`);
-	pool.query('SELECT subject, sender, receiver, contents FROM messages')
-	.then(res => {
-	    console.log('Show contents: ')
-		res.rows.forEach(val=> {
-			console.log(val);
-			res.rows.push(val.sender)
-			//arr.push(val.name);
-		})
-		response.send(res.rows);
-	    //response.send(res.rows[4 - 4]);
-	})
-	.catch(err =>
+app.get('/messages', (request, response) => {
+	    //console.log(`Got request for found,sending ${found}`);
+	       let email = request.body.email;
+	       let receiver = get_affiliation(email);
+	       console.log(`Got request for messages,sending`);
+	       console.log(`Got request for messages,'${receiver}'`);
+	       pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'all' OR m.reciever = '${receiver}'`)
+			.then(res => {
+				console.log('Show contents: ')
+				response.send(res.rows);
+			})
+			.catch(err =>
 	       setImmediate(() => {
 		   throw err;
 	       }));
 })
+/*
++app.get('/affiliation', (request, response) => {
++    //console.log(`Got request for found,sending ${found}`);
++       console.log(`Got request for found,sending`);
++       //console.log(`Got request for found,'${receiver}'`);
++       let email = request.body.email;
++       pool.query(`SELECT affiliation FROM users WHERE email = '${email}'`) //aff with email
++       .then(res => {
++           console.log('Show contents: ')
++               response.send(res.rows);
++           //response.send(res.rows[4 - 4]);
++       })
++       .catch(err =>
++              setImmediate(() => {
++                  throw err;
++              }));
++})*/
 
+	
 /* update content*/ 
 app.post('/inserted', (request, response) => {
     console.log('Putting content into contents column');
 
-	let Sentinfo=request.body.Sentinfo;
-	console.log('this is', Sentinfo);
-	Sentinfo = Sentinfo.replaceAll("  ",'~')
-	Sentinfo = Sentinfo.replaceAll(" ",'')
-	Sentinfo = Sentinfo.replaceAll("~",' ')
-	let arr = Sentinfo.split(" ");
-	//arr.splice(0); 
-	console.log(arr); 
-	//console.log(`Got request to add a subject, will add ${arr[0]}, ${arr[1]}, ${arr[2]}, ${arr[3]} to database`);
-	
-	let subject = arr[0]; 
-	let sender = arr[1]; 
-	let receiver = arr[2]; 
-	let contents = arr[3]; 
+	      //console.log(request);
+       //console.log(request.body);
+       let subject = request.headers.subject; 
+       let sender = request.headers.sender; 
+       let receiver = request.headers.receiver; 
+       let contents = request.headers.contents; 
+
 
 	console.log(`Got request to add a subject, will add ${subject} to database`);    
 	console.log(`Got request to add a sender, will add ${sender} to database`); 
 	console.log(`Got request to add a receiver, will add ${receiver} to database`); 
 	console.log(`Got request to add a contents, will add ${contents} to database`); 
-	
-	pool.query('INSERT INTO messages (mid, subject, sender, receiver, contents) VALUES ($1), ($2), ($3), ($4), $(5)', [DEFAULT,subject,sender,receiver,contents])
-
-	.then(res => {
-	    console.log('DB response: ' )
-		res.rows.forEach(val=> {
-			console.log(val);
-			res.rows.push(val.sender)
-		response.sendStatus(200);
-	})
-	.catch(err =>
-	       setImmediate(() => {
-		   throw err;
-	       }));
-})
-
-})
+	pool.query('INSERT INTO messages (subject, sender, receiver, contents) VALUES ($1,$2,$3,$4)', [subject,sender,receiver,contents])
+        .then(res => {
+            console.log('DB response: ' )
+                       //arr.push(val.sender)
+                       response.sendStatus(200);
+       })
+		.catch(err =>
+               setImmediate(() => {
+                   throw err;
+               }))
+	});
 /*
 app.post('/inserted', (request, response) => {
     // count++;
@@ -275,3 +291,4 @@ console.log(`Connected to database ${dbName} on ${dbHost}`);
 console.log("IP addresses:  ", lib.getIPAddresses());
 
 module.exports = app;
+
