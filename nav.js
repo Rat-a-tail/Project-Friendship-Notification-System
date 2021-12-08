@@ -17,7 +17,6 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} options = {{headerShown: false}}/>
         <Stack.Screen name="Inbox" component={Inbox} options = {{headerShown: false}}/>
         <Stack.Screen name = "Alert" component={CreateAlert} options = {{headerShown: false}} />
-        <Stack.Screen name = "Main Navigator" component = {MainNavigator} options = {{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
