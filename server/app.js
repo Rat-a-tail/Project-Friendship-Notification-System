@@ -29,7 +29,7 @@ function get_affiliation(email) {
 // RETRIEVE message content
 app.get('/messages', (request, response) => {
 	    //console.log(`Got request for found,sending ${found}`);
-	       let email = request.headers.email;
+	       let email = request.body.email;
 	       let receiver = get_affiliation(email);
 	       console.log(`Got request for messages,sending`);
 	       console.log(`Got request for messages,'${receiver}'`);
@@ -46,7 +46,7 @@ app.get('/messages', (request, response) => {
 })
 /*users*/
 app.get('/users', (request, response) => {
-	       let email = request.headers.email;
+	       let email = request.body.email;
 	       console.log(`Got request for user, ${email}`)
 	       //console.log(`SELECT * FROM users WHERE email = '${email}'`)
 	       pool.query(`SELECT * FROM users WHERE email = '${email}'`)  // wanna display this info in drop down menu
@@ -108,6 +108,7 @@ app.get('/users', (request, response) => {
 	
 /* update content*/ 
 app.post('/inserted', (request, response) => {
+	console.log(request.body);
     console.log('Putting content into contents column');
 
 	      //console.log(request);
