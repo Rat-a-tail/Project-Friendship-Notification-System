@@ -7,7 +7,7 @@ export default function Inbox ({ route, navigation }) {
 	const [ receiver, setReceiver ] = useState(' ');
 	const [subject, setSubject ] = useState(' ');
 	const [ contents, setContents] = useState(' ');
-	const [url, SetUrl] = useState('http://10.42.248.168:3001');
+	const [url, SetUrl] = useState('http://10.42.224.126:3001');
 	const [formContentType, setFormContentType ] = useState('application/x-www-form-urlencoded;charset=UTF-8');
 	
 	handlePress = (op, method = '', params = {}) => {

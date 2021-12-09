@@ -3,7 +3,7 @@ import { StyleSheet, View, Button, Text, Image } from "react-native";
 import * as Google from "expo-google-app-auth";
 
 export default function Login ({ navigation }) {
-	const [url, setUrl] = useState('http://10.42.248.168:3001');
+	const [url, setUrl] = useState('http://10.42.224.126:3001');
   const signInAsync = async () => {
     try {
       const { type, user } = await Google.logInAsync({

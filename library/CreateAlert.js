@@ -1,13 +1,23 @@
 import React, { Component, useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function CreateAlert ({route, navigation }) {
 	const { user } = route.params;
-	const [ receiver, setReceiver ] = useState(' ');
+	const [ receiver, setReceiver ] = useState('Ole');
 	const [subject, setSubject ] = useState('Missing Child');
-	const [ contents, setContents] = useState(' ');
-	const [url, SetUrl] = useState('http://10.42.248.168:3001');
+	const [ contents, setContents] = useState('');
+	const [url, SetUrl] = useState('http://10.42.224.126:3001');
 	const [formContentType, setFormContentType ] = useState('application/x-www-form-urlencoded;charset=UTF-8');
+	
+	//Data for dropdownmenu
+	const [open, setOpen] = useState(false);
+	const [value, setValue] = useState(null);
+	const [items, setItems] = useState([
+		{label: 'St. Olaf College', value: 'Ole'},
+		{label: 'Carleton College', value: 'Carl'},
+		{label: 'Both Colleges', value: 'All'}
+		]);
 	
 		
 	handlePress = (op, method = '', params = {}) => {
@@ -26,51 +36,45 @@ export default function CreateAlert ({route, navigation }) {
             });
 
     }
+    	
 	    return (
             <View style={{ alignItems: 'center', padding: 50}}>
             
-                    <Text>Create an alert</Text>
-                    
-                  
-                                    {/* From */}
-	        {/*</View> */}
+                    <Text style = {styles.header}>Send an alert</Text>
+     
 
 			{/* To */}
 
 			<Text>To:</Text>
-	        {/*<View style={styles.input}>*/}
-	        <TextInput
-	          style={styles.input}
-	          placeholder="Parent/Mentor"
-	          onChangeText={(receiver) => setReceiver({receiver})}
-	          value={receiver}
-	        />
-	         {/*</View> */}
-
+	        <DropDownPicker 
+	        	style = {styles.dropdown}
+	        	textStyle = {{textAlign: 'center'}}
+	        	open = {open}
+	        	value = {value}
+	        	items = {items}
+	        	setItems={setItems}
+	        	setOpen={setOpen}
+	        	setValue={setValue}
+	        	onChangeValue = {(choice) => {setReceiver(choice);}}
+	        	/>
+	        
 			{/* Subject*/}
 
 			<Text>Subject:</Text>
-	        {/*<View style={styles.input}>*/}
 	        <TextInput
 	          style={styles.input}
-	          placeholder="Hi"
-	          onChangeText={(subject) => setSubject({subject})}
+	          onChangeText={(subject) => setSubject(subject)}
 	          value={subject}
 	        />
-	         {/*</View> */}
-
 			{/* Content*/}
 
-			<Text>Content:</Text>
-	        {/*<View style={styles.input}>*/}
+			<Text>Message:</Text>
 	        <TextInput
 	          style={styles.input}
-	          placeholder="PF"
-	          onChangeText={(contents) => setContents({contents})}
+	          onChangeText={(contents) => setContents(contents)}
 	          value={contents}
 	        />
-	         {/*</View> */}
-                <Button color = 'green' title = 'send'
+                <Button color = 'green' title = 'send' style = {styles.buton}
                 onPress = {() => handlePress('inserted', 'POST', {
                 	headers: {
                 		'Content-type': formContentType,
@@ -96,14 +100,13 @@ export default function CreateAlert ({route, navigation }) {
                 		
                 
                 
-            <Button color='tomato' title = 'Inbox'
+            <Button color='tomato' title = 'Return to Inbox' style = {styles.button}
 	        onPress = {() => {navigation.navigate("Inbox", {user})}} />
 
-                
+             
             </View>
         );
     }
-
 const styles = StyleSheet.create({
     titleText: {
         //fontFamily: 'sans-serif-light',
@@ -114,9 +117,25 @@ const styles = StyleSheet.create({
     },
     input: {
     	textAlign: 'center',
-    	width: '75%',
+    	width: '100%',
    	 	margin: 12,
     	borderWidth: 1,
     	padding: 10,
-    	}
+     	borderRadius: 7,
+     	backgroundColor: 'white'
+    },
+    button: {
+    	borderRadius: 7
+    },
+    header: {
+    	fontSize: 25,
+    	textDecorationLine: 'underline',
+    	fontWeight: 'bold'
+    },
+    dropdown: {
+    	borderRadius: 7,
+    	width: '100%',
+    	justifyContent: 'center',
+    	textAlign: 'center'
+    }
     });
