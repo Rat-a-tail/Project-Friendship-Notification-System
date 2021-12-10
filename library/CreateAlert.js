@@ -75,7 +75,7 @@ export default function CreateAlert ({route, navigation }) {
 	          value={contents}
 	        />
                 <Button color = 'green' title = 'send' style = {styles.buton}
-                onPress = {() => handlePress('inserted', 'POST', {
+                onPress = {() => handlePress('insert', 'POST', {
                 	headers: {
                 		'Content-type': formContentType,
                 		//'subject': subject.subject,
@@ -83,13 +83,7 @@ export default function CreateAlert ({route, navigation }) {
                 		//'contents': contents.contents,
                 		//'receiver': receiver.receiver
                 	},
-                	body: JSON.stringify({
-                		subject: subject.subject,
-                		sender: user.email,
-                		contents: contents.contents,
-                		receiver: receiver.receiver}),
-                	//body:
-                		//`subject=${subject.subject} sender = ${sender.sender} contents = ${contents.contents} receiver = ${receiver.receiver}`
+                	body: `subject=${subject}&sender=${user.email}&contents=${contents}&receiver=${receiver}`
                 		//subject: subject.subject,
                 		//'sender': sender.sender,
                 		//'contents': contents.contents,

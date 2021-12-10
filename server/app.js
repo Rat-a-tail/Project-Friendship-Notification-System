@@ -11,67 +11,83 @@ let found;
 let inserted;
 // helper function to get affiliation for email.
 function get_affiliation(email) {
-	       let role;
-	       if(email.includes(`@stolaf.edu`)){
-	               role = `Ole`
-	       }
-	       else if(email.includes(`@carleton.edu`)){
-	               role = `Carl`
-	       }
-	       else{
-	               role = `Other`
-	       }
-	       return role;
+	let role;
+	if(email.includes(`@stolaf.edu`)) {
+		role = `Ole`
+	} else if (email.includes(`@carleton.edu`)) {
+		role = `Carl`
+	} else {
+		role = `Other`
 	}
+	return role;
+}
 	
 // handle requests
-2
-// RETRIEVE message content
+
+// GET message content
 app.get('/messages', (request, response) => {
-	    //console.log(`Got request for found,sending ${found}`);
-	       let email = request.body.email;
-	       let receiver = get_affiliation(email);
-	       console.log(`Got request for messages,sending`);
-	       console.log(`Got request for messages,'${receiver}'`);
-		   console.log(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'all' OR m.receiver = '${receiver}'`)
-	       pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'all' OR m.receiver = '${receiver}' AND u.email = '${email}'`)
-			.then(res => {
-				console.log('Show contents: ')
-				response.send(res.rows);
-			})
-			.catch(err =>
-	       setImmediate(() => {
-		   throw err;
-	       }));
-})
-/*users*/
-app.get('/users', (request, response) => {
-	       let email = request.body.email;
-	       console.log(`Got request for user, ${email}`)
-	       //console.log(`SELECT * FROM users WHERE email = '${email}'`)
-	       pool.query(`SELECT * FROM users WHERE email = '${email}'`)  // wanna display this info in drop down menu
-	       .then(res => {
-	           console.log('Show contents: ')
-	                       if(res.rows.length == 0){ 
-	                               let role = get_affiliation(email);
-	                               console.log(`role`)
-	                               pool.query(`INSERT INTO users (email, role, affiliation) VALUES ('${email}', '${role}', 'mentor')`)
-	                               .then(res => {
-	                                       console.log(`account creates`) 
-	                                       //response.sendStatus(200);
-	                               })
-	                               .catch(err =>
-	                                       setImmediate(() => {
-	                                      throw err;
-	                                       }));
-	                               }
-	                               response.sendStatus(200);               
-	       })
-	       .catch(err =>
-	              setImmediate(() => {
-	                  throw err;
-	              }));
+	let email = request.query.email;
+	let receiver = get_affiliation(email);
+	console.log(`Got request for messages for ${email}`);
+	
+	pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'All' OR m.receiver = '${receiver}' AND u.email = '${email}'`)
+	.then(res => {
+		response.send(['messages', res.rows]);
 	})
+	.catch(err => setImmediate(() => {
+		throw err;
+	}));
+})
+
+// check if a user has an account, and if not creates one
+app.get('/users', (request, response) => {
+	let email = request.query.email;
+	console.log(`Got request for user, ${email}`);
+	       
+	pool.query(`SELECT * FROM users WHERE email = '${email}'`)
+	.then(res => {
+		if(res.rows.length == 0) { 
+			let role = get_affiliation(email);
+//account is created here
+			pool.query(`INSERT INTO users (email, role, affiliation) VALUES ('${email}', '${role}', 'mentor')`)
+			.then(res => {
+				console.log(`account created for ${email}`);
+			})
+			.catch(err => setImmediate(() => {
+				throw err;
+			}));
+		}
+		response.sendStatus(200);               
+	})
+	.catch(err => setImmediate(() => {
+		throw err;
+	}));
+})
+
+
+// POST new message to database
+app.post('/insert', (request, response) => {
+    console.log('Adding new message to database');
+    console.log(request.body);
+	let subject = request.body.subject; 
+	let sender = request.body.sender; 
+	let receiver = request.body.receiver; 
+	let contents = request.body.contents; 
+
+//	console.log(`Got request to add a subject, will add ${subject} to database`);    
+//	console.log(`Got request to add a sender, will add ${sender} to database`); 
+//	console.log(`Got request to add a receiver, will add ${receiver} to database`); 
+//	console.log(`Got request to add a contents, will add ${contents} to database`); 
+
+	pool.query('INSERT INTO messages (subject, sender, receiver, contents) VALUES ($1,$2,$3,$4)', [subject,sender,receiver,contents])
+	.then(res => {
+		response.sendStatus(200);
+	})
+	.catch(err => setImmediate(() => {
+		throw err;
+	}))
+});
+	
 /*app.delete('/removed', (request, response) => {
 		console.log(`Deleting user ${email}`)
 		let email = request.headers.email;
@@ -88,53 +104,23 @@ app.get('/users', (request, response) => {
 	});*/
 	
 /*
-+app.get('/affiliation', (request, response) => {
-+    //console.log(`Got request for found,sending ${found}`);
-+       console.log(`Got request for found,sending`);
-+       //console.log(`Got request for found,'${receiver}'`);
-+       let email = request.body.email;
-+       pool.query(`SELECT affiliation FROM users WHERE email = '${email}'`) //aff with email
-+       .then(res => {
-+           console.log('Show contents: ')
-+               response.send(res.rows);
-+           //response.send(res.rows[4 - 4]);
-+       })
-+       .catch(err =>
-+              setImmediate(() => {
-+                  throw err;
-+              }));
-+})*/
-
-	
-/* update content*/ 
-app.post('/inserted', (request, response) => {
-	console.log(request.body);
-    console.log('Putting content into contents column');
-
-	      //console.log(request);
-       //console.log(request.body);
-       let subject = request.body.subject; 
-       let sender = request.body.sender; 
-       let receiver = request.body.receiver; 
-       let contents = request.body.contents; 
-
-
-	console.log(`Got request to add a subject, will add ${subject} to database`);    
-	console.log(`Got request to add a sender, will add ${sender} to database`); 
-	console.log(`Got request to add a receiver, will add ${receiver} to database`); 
-	console.log(`Got request to add a contents, will add ${contents} to database`); 
-	pool.query('INSERT INTO messages (subject, sender, receiver, contents) VALUES ($1,$2,$3,$4)', [subject,sender,receiver,contents])
-        .then(res => {
-            console.log('DB response: ' )
-                       //arr.push(val.sender)
-                       response.sendStatus(200);
+Old server function depracated by get_affiliation function
+app.get('/affiliation', (request, response) => {
+    //console.log(`Got request for found,sending ${found}`);
+       console.log(`Got request for found,sending`);
+       //console.log(`Got request for found,'${receiver}'`);
+       let email = request.body.email;
+       pool.query(`SELECT affiliation FROM users WHERE email = '${email}'`) //aff with email
+       .then(res => {
+           console.log('Show contents: ')
+               response.send(res.rows);
+           //response.send(res.rows[4 - 4]);
        })
-		.catch(err =>
-               setImmediate(() => {
-                   throw err;
-               }))
-	});
-
+       .catch(err =>
+              setImmediate(() => {
+                  throw err;
+              }));
+})*/
 
 /*
 app.post('/inserted', (request, response) => {
@@ -310,7 +296,7 @@ lib.setErrorPrefix(__filename);  // set label for lib error messages
 
 // database connection parameters
 const dbHost = "anansi.stolaf.edu";
-const user = 'kinsum1';    // CHANGE to your username, e.g., jones1
+const user = 'wagner17';    // CHANGE to your username, e.g., jones1
 //const password = lib.getPGPassword(dbHost);  // uncomment for Windows
 const dbName = 'mca_f21';
 const schema = 'mca_f21_alert';  // CHANGE to your username as schema for Lab 5

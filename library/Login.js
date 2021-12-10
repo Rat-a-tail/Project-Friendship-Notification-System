@@ -17,13 +17,10 @@ export default function Login ({ navigation }) {
         {/* Accounts is checked against database, and added if not present */}
         params = {
         	"method": "GET",
-        	"headers": {
-        		"email": user.email,
         	}
-        	}
-        fetch(`${url}/users`, params)
-        .then((response) => response.text()).
-        then((responseText) => {
+        fetch(`${url}/users?email=${user.email}`, params)
+        .then((response) => response.text())
+        .then((responseText) => {
         	console.log(`Received ${responseText}`);
         	})
         	.catch((error) => {
