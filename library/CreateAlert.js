@@ -12,7 +12,8 @@ export default function CreateAlert ({route, navigation }) {
 	
 	//Data for dropdownmenu
 	const [open, setOpen] = useState(false);
-	const [value, setValue] = useState(null);
+	let role = get_send(user.email);
+	const [value, setValue] = useState(role);
 	const [items, setItems] = useState([
 		{label: 'St. Olaf College', value: 'Ole'},
 		{label: 'Carleton College', value: 'Carl'},
@@ -101,6 +102,19 @@ export default function CreateAlert ({route, navigation }) {
             </View>
         );
     }
+    
+// helper function to get default send
+function get_send(email) {
+	let role;
+	if(email.includes(`@stolaf.edu`)) {
+		role = `Ole`
+	} else if (email.includes(`@carleton.edu`)) {
+		role = `Carl`
+	} else {
+		role = `All`
+	}
+	return role;
+}
 const styles = StyleSheet.create({
     titleText: {
         //fontFamily: 'sans-serif-light',
