@@ -39,9 +39,6 @@ export default function Login ({ navigation }) {
       style={{width:250, height:280}}
       resizeMode="contain" //maintain aspect ratio
       source={require('./friendshiplogo.png')}/>
-      
-
-    	{/* <Text style = {styles.text}>PROJECT <Text style = {{color: "rgb(211,35,0)"}}>FRIENDSHIP</Text></Text>*/}
       <Button color = "rgb(96, 36, 190)" title="Login with Google" onPress={signInAsync} />
     </View>
   );

@@ -2,56 +2,30 @@ import React, { Component, useState } from 'react';
 import { View, Text, Alert, StyleSheet, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class Inbox extends Component {
+export default class Message extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            subject: 'Missing child', 
-            contents: 'Help! A child went missing!!', 
-            from: 'bob@stolaf.edu'
-        };
     }
-    /*
-    handlePress = () => {
-        fetch('https://www.stolaf.edu/people/rab/mca/hello.txt')
-            .then((response) => response.text())
-            .then((responseText) => {
-                alert("Message: \n\n "  + responseText);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-    */
     render() {
 	    return (
-            <View style={{ alignItems: 'center' }}>
-
-                <Text style={styles.titleText}>
-                    <Text>Inbox</Text>
-                </Text>
-
 
                 <View> 
                     <Pressable
-                    onPress={() => Alert.alert( this.state.subject, 
-                        this.state.contents + '\n\n\nFrom:  ' + this.state.from
+                    onPress={() => Alert.alert( this.props.subject, 
+                        this.props.contents + '\n\n\nFrom:  ' + this.props.from
                          
                     
                     )}>
                     <Text style={styles.pressableText}>{
-                        " Subject:  "+ this.state.subject + 
-                        "\n Contents:  " + this.state.contents + 
-                        "\n From:  " + this.state.from}</Text>
+                        " Subject:  "+ this.props.subject + 
+                        "\n Contents:  " + this.props.contents + 
+                        "\n From:  " + this.props.from}</Text>
                     </Pressable>
 
                 </View>
                 
-
+/*
                 <View style={styles.buttonStyle}>
-                    <Ionicons.Button name="log-in" backgroundColor="#ba2318" onPress={() => this.props.navigation.navigate('Login')}>
-                        <Text style={{color: 'white', fontWeight: 'bold'}}>Login </Text>
-                    </Ionicons.Button>
                     <Ionicons.Button name="mail" backgroundColor="#ba2318" onPress={() => this.props.navigation.navigate('Inbox')}>
                         <Text style={{color: 'white', fontWeight: 'bold'}}>Inbox </Text>
                     </Ionicons.Button>
@@ -59,7 +33,8 @@ export default class Inbox extends Component {
                         <Text style={{color: 'white', fontWeight: 'bold'}}>Alert </Text>
                     </Ionicons.Button>
                 </View>
-            </View>
+                */
+        /*    </View>*/
         );
     }
 }
