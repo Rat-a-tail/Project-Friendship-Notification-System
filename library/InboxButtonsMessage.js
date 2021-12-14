@@ -52,14 +52,6 @@ const styles = StyleSheet.create({
         width: 500, // space between buttons
         height: 60,
       },
-
-    titleText: {
-        fontFamily: 'sans-serif-light',
-        justifyContent: 'center',
-        fontSize: 25,
-        fontWeight: 'bold',
-        paddingVertical: 30,
-    },
     
     pressableText: {
         borderBottomWidth: 1,
