@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, ScrollView, Image, Pressable } from 'react-native';
 import Message from './InboxButtonsMessage.js';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as Google from "expo-google-app-auth";
 
 export default function Inbox ({ route, navigation }) {	
 	const [sender, setSenders] = useState([]);

@@ -29,8 +29,7 @@ app.get('/messages', (request, response) => {
 	let email = request.query.email;
 	let receiver = get_affiliation(email);
 	console.log(`Got request for messages for ${email}`);
-	
-	pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE m.receiver = 'All' OR m.receiver = '${receiver}' AND u.email = '${email}'`)
+	pool.query(`SELECT m.subject, m.sender, m.contents FROM messages m, users u WHERE (m.receiver = 'All' OR m.receiver = '${receiver}') AND u.email = '${email}'`)
 	.then(res => {
 		response.send(['messages', res.rows]);
 	})
