@@ -1,6 +1,4 @@
-After pulling, and before making any changes be sure to run "npm install" to add all the dependencies located in the package.json file
-
 
 # Notification System
+Created mobile application alert system using react native, javascript, PSQL and google API for local organisation for its users.(St Olaf and Carleton)
 
-alert	Alert	kinsum1,palu1,wagner17	Notification System
